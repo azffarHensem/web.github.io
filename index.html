@@ -139,12 +139,24 @@
 
     <!-- Sign-Up Form -->
     <div id="signup-container" class="container hidden">
-        <h2>Pilih</h2>
-        <input type="text" id="signup-username" placeholder="Nama Barang">
-        <input type="text" id="signup-password" placeholder="Berapa?">
-        <button id="signup-btn">Order</button>
+        <h2>Sign Up</h2>
+        <input type="text" id="signup-username" placeholder="Username">
+        <input type="password" id="signup-password" placeholder="Password">
+        <button id="signup-btn">Sign Up!</button>
         <p>Create by webAzffar<span id="login-toggle" class="toggle-link"></span></p>
     </div>
+    
+    <!-- Category Selection -->
+<div id="category-container" class="container hidden">
+    <h2>Select a Category</h2>
+    <select id="category-select">
+        <option value="" disabled selected>Select a category</option>
+        <option value="Laptop">Laptop</option>
+        <option value="Telephone">Telephone</option>
+        <option value="Cerita">Cerita</option>
+    </select>
+    <button id="proceed-btn">Proceed</button>
+</div>
 
     <!-- Admin Dashboard -->
     <div id="dashboard-container" class="container hidden">
@@ -153,116 +165,183 @@
         <button id="clear-data-btn" style="background: #ff4d4d;">Clear All Data</button>
         <button id="logout-btn">Logout</button>
     </div>
+    
+    <!-- Details Input After Category Selection -->
+<div id="details-container" class="container hidden">
+    <h2 id="details-title">Details for <span id="selected-category"></span></h2>
+    <input type="text" id="details-input" placeholder="Berapa?">
+    <button id="details-submit-btn">Submit</button>
+</div>
 
     <script>
-        // Predefined admin credentials
-        const adminCredentials = { username: "byge", password: "H3110M3110w" };
+// Predefined admin credentials
+const adminCredentials = { username: "admin", password: "admin123" };
 
-        // Load users from localStorage or initialize an empty array
-        let users = JSON.parse(localStorage.getItem("users")) || [];
+// Load users from localStorage or initialize an empty array
+let users = JSON.parse(localStorage.getItem("users")) || [];
 
-        // DOM elements
-        const authContainer = document.getElementById("auth-container");
-        const signupContainer = document.getElementById("signup-container");
-        const dashboardContainer = document.getElementById("dashboard-container");
-        const userList = document.getElementById("user-list");
+// DOM elements
+const authContainer = document.getElementById("auth-container");
+const signupContainer = document.getElementById("signup-container");
+const categoryContainer = document.getElementById("category-container");
+const detailsContainer = document.getElementById("details-container");
+const dashboardContainer = document.getElementById("dashboard-container");
+const userList = document.getElementById("user-list");
+const categorySelect = document.getElementById("category-select");
+const selectedCategoryTitle = document.getElementById("selected-category");
+const detailsInput = document.getElementById("details-input");
 
-        // Toggle between login and signup
-        document.getElementById("signup-toggle").addEventListener("click", () => {
-            authContainer.classList.add("hidden");
-            signupContainer.classList.remove("hidden");
-        });
+// Toggle between login and signup
+document.getElementById("signup-toggle").addEventListener("click", () => {
+    authContainer.classList.add("hidden");
+    signupContainer.classList.remove("hidden");
+});
 
-        document.getElementById("login-toggle").addEventListener("click", () => {
-            signupContainer.classList.add("hidden");
-            authContainer.classList.remove("hidden");
-        });
+document.getElementById("login-toggle").addEventListener("click", () => {
+    signupContainer.classList.add("hidden");
+    authContainer.classList.remove("hidden");
+});
 
-        // Handle login
-        document.getElementById("login-btn").addEventListener("click", () => {
-            const username = document.getElementById("username").value.trim();
-            const password = document.getElementById("password").value.trim();
+// Handle login
+document.getElementById("login-btn").addEventListener("click", () => {
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
 
-            if (username === adminCredentials.username && password === adminCredentials.password) {
-                // Admin login
-                showDashboard();
-            } else {
-                const user = users.find(user => user.username === username && user.password === password);
-                if (!user) {
-                    alert("Invalid username or password.");
-                } else {
-                    alert(`Welcome, ${user.username}!`);
-                }
-            }
-        });
+    if (username === adminCredentials.username && password === adminCredentials.password) {
+        // Admin login
+        showDashboard();
+    } else {
+        const user = users.find(user => user.username === username && user.password === password);
+        if (!user) {
+            alert("Invalid username or password.");
+        } else {
+            // Show category selection for users
+            showCategorySelection(username);
+        }
+    }
+});
 
-        // Handle signup
-        document.getElementById("signup-btn").addEventListener("click", () => {
-            const username = document.getElementById("signup-username").value.trim();
-            const password = document.getElementById("signup-password").value.trim();
+// Handle signup
+document.getElementById("signup-btn").addEventListener("click", () => {
+    const username = document.getElementById("signup-username").value.trim();
+    const password = document.getElementById("signup-password").value.trim();
 
-            if (!username || !password) {
-                alert("Please fill out all fields.");
-                return;
-            }
+    if (!username || !password) {
+        alert("Please fill out all fields.");
+        return;
+    }
 
-            if (username === adminCredentials.username) {
-                alert("Cannot use 'admin' as a username.");
-                return;
-            }
+    if (username === adminCredentials.username) {
+        alert("Cannot use 'admin' as a username.");
+        return;
+    }
 
-            if (users.some(user => user.username === username)) {
-                alert("Username already exists.");
-                return;
-            }
+    if (users.some(user => user.username === username)) {
+        alert("Username already exists.");
+        return;
+    }
 
-            // Add new user to the array and save to localStorage
-            users.push({ username, password });
-            localStorage.setItem("users", JSON.stringify(users));
-            alert("Sign-up successful! Please log in.");
-            document.getElementById("login-toggle").click();
-        });
+    // Add new user to the array and save to localStorage
+    users.push({ username, password });
+    localStorage.setItem("users", JSON.stringify(users));
+    alert("Sign-up successful! Please log in.");
+    document.getElementById("login-toggle").click(); // Switch back to login form
+});
 
-        // Show admin dashboard
-        function showDashboard() {
-            authContainer.classList.add("hidden");
-            dashboardContainer.classList.remove("hidden");
-            updateUserList();
+// Show category selection for a logged-in user
+function showCategorySelection(username) {
+    authContainer.classList.add("hidden");
+    categoryContainer.classList.remove("hidden");
+
+    // Handle category selection and proceed to details input
+    document.getElementById("proceed-btn").onclick = () => {
+        const selectedCategory = categorySelect.value;
+
+        if (!selectedCategory) {
+            alert("Please select a category.");
+            return;
         }
 
-        // Update the user list in the admin dashboard
-        function updateUserList() {
-            userList.innerHTML = "";
-            if (users.length === 0) {
-                const listItem = document.createElement("li");
-                listItem.textContent = "No users found.";
-                userList.appendChild(listItem);
-            } else {
-                users.forEach(user => {
-                    const listItem = document.createElement("li");
-                    listItem.textContent = `Nama Barang: ${user.username}, Berapa: ${user.password}`;
-                    userList.appendChild(listItem);
-                });
-            }
+        // Save the selected category to the user data
+        const userIndex = users.findIndex(user => user.username === username);
+        if (userIndex !== -1) {
+            users[userIndex].category = selectedCategory;
+            localStorage.setItem("users", JSON.stringify(users)); // Update localStorage
         }
 
-        // Clear all user data
-        document.getElementById("clear-data-btn").addEventListener("click", () => {
-            if (confirm("Are you sure you want to delete all user data? This action cannot be undone.")) {
-                users = [];
-                localStorage.removeItem("users");
-                alert("All user data has been cleared.");
-                updateUserList();
-            }
-        });
+        // Show details input for the selected category
+        showDetailsInput(username, selectedCategory);
+    };
+}
 
-        // Logout
-        document.getElementById("logout-btn").addEventListener("click", () => {
-            dashboardContainer.classList.add("hidden");
-            authContainer.classList.remove("hidden");
-            document.getElementById("username").value = "";
-            document.getElementById("password").value = "";
+// Show details input for the selected category
+function showDetailsInput(username, category) {
+    categoryContainer.classList.add("hidden");
+    detailsContainer.classList.remove("hidden");
+    selectedCategoryTitle.textContent = category;
+
+    // Handle details submission
+    document.getElementById("details-submit-btn").onclick = () => {
+        const details = detailsInput.value.trim();
+
+        if (!details) {
+            alert("Please provide details for the selected category.");
+            return;
+        }
+
+        // Save the details to the user data
+        const userIndex = users.findIndex(user => user.username === username);
+        if (userIndex !== -1) {
+            users[userIndex].details = { category, details };
+            localStorage.setItem("users", JSON.stringify(users)); // Update localStorage
+        }
+
+        alert("Details submitted successfully!");
+        detailsContainer.classList.add("hidden");
+        authContainer.classList.remove("hidden"); // Redirect back to login for simplicity
+    };
+}
+
+// Show admin dashboard
+function showDashboard() {
+    authContainer.classList.add("hidden");
+    dashboardContainer.classList.remove("hidden");
+    updateUserList(); // Populate user list
+}
+
+// Update the user list in the admin dashboard
+function updateUserList() {
+    userList.innerHTML = "";
+    if (users.length === 0) {
+        const listItem = document.createElement("li");
+        listItem.textContent = "No users found.";
+        userList.appendChild(listItem);
+    } else {
+        users.forEach(user => {
+            const listItem = document.createElement("li");
+            listItem.textContent = `Nama Barang: ${user.username}, Berapa: ${user.password}, Kategori: ${user.category || "None"}, Details: ${user.details?.details || "None"}`;
+            userList.appendChild(listItem);
         });
+    }
+}
+
+// Clear all user data
+document.getElementById("clear-data-btn").addEventListener("click", () => {
+    if (confirm("Are you sure you want to delete all user data? This action cannot be undone.")) {
+        users = [];
+        localStorage.removeItem("users");
+        alert("All user data has been cleared.");
+        updateUserList();
+    }
+});
+
+// Logout
+document.getElementById("logout-btn").addEventListener("click", () => {
+    dashboardContainer.classList.add("hidden");
+    authContainer.classList.remove("hidden");
+    document.getElementById("username").value = "";
+    document.getElementById("password").value = "";
+});
     </script>
 </body>
 </html>
