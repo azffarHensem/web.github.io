@@ -3,345 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin and User System</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <title>Neon Website</title>
     <style>
-        /* General Reset */
-        * {
+        body {
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Roboto', sans-serif;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
-            overflow: hidden;
-        }
-
-        .container {
-            background: white;
-            width: 100%;
-            max-width: 400px;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
+            background: linear-gradient(to bottom, #000000, #220000);
+            font-family: Arial, sans-serif;
+            color: #fff;
             text-align: center;
-            animation: fadeIn 0.8s ease-in-out;
+            overflow-x: hidden;
         }
-
-        .container.hidden {
-            display: none;
+        .container {
+            max-width: 800px;
+            padding: 40px;
         }
-
-        h2 {
-            font-size: 24px;
-            margin-bottom: 20px;
-            color: #333;
-        }
-
-        input, button, select {
-            width: 100%;
-            margin: 10px 0;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            outline: none;
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-
-        input:focus, select:focus {
-            border-color: #2575fc;
-            box-shadow: 0px 0px 5px rgba(37, 117, 252, 0.5);
-        }
-
-        button {
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
+        h1 {
+            font-size: 3rem;
             font-weight: bold;
         }
-
-        button:hover {
-            background: linear-gradient(135deg, #2575fc, #6a11cb);
+        .highlight {
+            color: #ff0000;
         }
-
-        .toggle-link {
-            color: #2575fc;
-            font-size: 14px;
-            cursor: pointer;
-        }
-
-        .dashboard {
-            text-align: left;
-        }
-
-        ul {
-            list-style-type: none;
+        p {
+            font-size: 1.2rem;
             margin-top: 10px;
+            opacity: 0.8;
         }
-
-        li {
-            padding: 8px;
-            background: #f9f9f9;
-            border-radius: 10px;
-            margin-bottom: 5px;
-            font-size: 14px;
-            color: #555;
+        .line {
+            width: 100px;
+            height: 4px;
+            background: #ff0000;
+            margin: 20px auto;
         }
-
-        li:nth-child(odd) {
-            background: #eef2f7;
+        .btn {
+            display: inline-block;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            color: #fff;
+            background: #ff0000;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: transform 0.3s ease, background 0.3s;
+            text-decoration: none;
+            font-weight: bold;
         }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .btn:hover {
+            background: #ff4444;
+            transform: scale(1.1);
         }
-
-        @media (max-width: 480px) {
-            .container {
-                padding: 20px;
-            }
-
-            h2 {
-                font-size: 20px;
-            }
-
-            button {
-                font-size: 14px;
-            }
+        .neon-icon {
+            margin-top: 30px;
+        }
+        .scroll-section {
+            opacity: 0;
+            transform: translateY(100px);
+            transition: opacity 1s ease, transform 1s ease;
+            margin-top: 50px;
+            padding: 40px;
+            text-align: center;
+        }
+        .scroll-section.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
-    <!-- Login Form -->
-    <div id="auth-container" class="container">
-        <h2 id="form-title">Log In</h2>
-        <input type="text" id="username" placeholder="Username">
-        <input type="password" id="password" placeholder="Password">
-        <button id="login-btn">Log In</button>
-        <p>Sini untuk order <span id="signup-toggle" class="toggle-link">Click Me</span></p>
+    <div class="container">
+        <h1>Enjoy <span class="highlight">Neon Admin</span>.</h1>
+        <h2>Keyless, For Free, Forever.</h2>
+        <div class="line"></div>
+        <p>Explore the completely free version of Neon Admin, with no Key System required. It provides a simple and intuitive interface with admin commands, allowing you to easily customize your experience.</p>
+        <a href="#" class="btn">GET IT NOW!</a>
     </div>
 
-    <!-- Sign-Up Form -->
-    <div id="signup-container" class="container hidden">
-        <h2>Sign Up</h2>
-        <input type="text" id="signup-username" placeholder="Username">
-        <input type="password" id="signup-password" placeholder="Password">
-        <button id="signup-btn">Sign Up!</button>
-        <p>Create by webAzffar<span id="login-toggle" class="toggle-link"></span></p>
-    </div>
+    <!-- New Section that Appears on Scroll -->
     
-    <!-- Category Selection -->
-<div id="category-container" class="container hidden">
-    <h2>Select a Category</h2>
-    <select id="category-select">
-        <option value="" disabled selected>Select a category</option>
-        <option value="Laptop">Laptop</option>
-        <option value="Telephone">Telephone</option>
-        <option value="Cerita">Cerita</option>
-    </select>
-    <button id="proceed-btn">Proceed</button>
-</div>
-
-    <!-- Admin Dashboard -->
-    <div id="dashboard-container" class="container hidden">
-        <h2>WebAzffar</h2>
-        <ul id="user-list"></ul>
-        <button id="clear-data-btn" style="background: #ff4d4d;">Clear All Data</button>
-        <button id="logout-btn">Logout</button>
+	<div class="scroll-section" id="scrollSection">
+        <h2>Exclusive Features</h2>
+        <p>Example is that a thing you cant do it alone(jk) notfox</p>
+        <a href="#" class="btn">Learn More</a>
     </div>
-    
-    <!-- Details Input After Category Selection -->
-<div id="details-container" class="container hidden">
-    <h2 id="details-title">Details for <span id="selected-category"></span></h2>
-    <input type="text" id="details-input" placeholder="Berapa?">
-    <button id="details-submit-btn">Submit</button>
-</div>
+	
 
     <script>
-// Predefined admin credentials
-const adminCredentials = { username: "admin", password: "admin123" };
+        // Add smooth scroll effect
+        window.addEventListener('scroll', function() {
+            const section = document.getElementById('scrollSection');
+            const sectionTop = section.getBoundingClientRect().top;
+            const windowHeight = window.innerHeight;
 
-// Load users from localStorage or initialize an empty array
-let users = JSON.parse(localStorage.getItem("users")) || [];
-
-// DOM elements
-const authContainer = document.getElementById("auth-container");
-const signupContainer = document.getElementById("signup-container");
-const categoryContainer = document.getElementById("category-container");
-const detailsContainer = document.getElementById("details-container");
-const dashboardContainer = document.getElementById("dashboard-container");
-const userList = document.getElementById("user-list");
-const categorySelect = document.getElementById("category-select");
-const selectedCategoryTitle = document.getElementById("selected-category");
-const detailsInput = document.getElementById("details-input");
-
-// Toggle between login and signup
-document.getElementById("signup-toggle").addEventListener("click", () => {
-    authContainer.classList.add("hidden");
-    signupContainer.classList.remove("hidden");
-});
-
-document.getElementById("login-toggle").addEventListener("click", () => {
-    signupContainer.classList.add("hidden");
-    authContainer.classList.remove("hidden");
-});
-
-// Handle login
-document.getElementById("login-btn").addEventListener("click", () => {
-    const username = document.getElementById("username").value.trim();
-    const password = document.getElementById("password").value.trim();
-
-    if (username === adminCredentials.username && password === adminCredentials.password) {
-        // Admin login
-        showDashboard();
-    } else {
-        const user = users.find(user => user.username === username && user.password === password);
-        if (!user) {
-            alert("Invalid username or password.");
-        } else {
-            // Show category selection for users
-            showCategorySelection(username);
-        }
-    }
-});
-
-// Handle signup
-document.getElementById("signup-btn").addEventListener("click", () => {
-    const username = document.getElementById("signup-username").value.trim();
-    const password = document.getElementById("signup-password").value.trim();
-
-    if (!username || !password) {
-        alert("Please fill out all fields.");
-        return;
-    }
-
-    if (username === adminCredentials.username) {
-        alert("Cannot use 'admin' as a username.");
-        return;
-    }
-
-    if (users.some(user => user.username === username)) {
-        alert("Username already exists.");
-        return;
-    }
-
-    // Add new user to the array and save to localStorage
-    users.push({ username, password });
-    localStorage.setItem("users", JSON.stringify(users));
-    alert("Sign-up successful! Please log in.");
-    document.getElementById("login-toggle").click(); // Switch back to login form
-});
-
-// Show category selection for a logged-in user
-function showCategorySelection(username) {
-    authContainer.classList.add("hidden");
-    categoryContainer.classList.remove("hidden");
-
-    // Handle category selection and proceed to details input
-    document.getElementById("proceed-btn").onclick = () => {
-        const selectedCategory = categorySelect.value;
-
-        if (!selectedCategory) {
-            alert("Please select a category.");
-            return;
-        }
-
-        // Save the selected category to the user data
-        const userIndex = users.findIndex(user => user.username === username);
-        if (userIndex !== -1) {
-            users[userIndex].category = selectedCategory;
-            localStorage.setItem("users", JSON.stringify(users)); // Update localStorage
-        }
-
-        // Show details input for the selected category
-        showDetailsInput(username, selectedCategory);
-    };
-}
-
-// Show details input for the selected category
-function showDetailsInput(username, category) {
-    categoryContainer.classList.add("hidden");
-    detailsContainer.classList.remove("hidden");
-    selectedCategoryTitle.textContent = category;
-
-    // Handle details submission
-    document.getElementById("details-submit-btn").onclick = () => {
-        const details = detailsInput.value.trim();
-
-        if (!details) {
-            alert("Please provide details for the selected category.");
-            return;
-        }
-
-        // Save the details to the user data
-        const userIndex = users.findIndex(user => user.username === username);
-        if (userIndex !== -1) {
-            users[userIndex].details = { category, details };
-            localStorage.setItem("users", JSON.stringify(users)); // Update localStorage
-        }
-
-        alert("Details submitted successfully!");
-        detailsContainer.classList.add("hidden");
-        authContainer.classList.remove("hidden"); // Redirect back to login for simplicity
-    };
-}
-
-// Show admin dashboard
-function showDashboard() {
-    authContainer.classList.add("hidden");
-    dashboardContainer.classList.remove("hidden");
-    updateUserList(); // Populate user list
-}
-
-// Update the user list in the admin dashboard
-function updateUserList() {
-    userList.innerHTML = "";
-    if (users.length === 0) {
-        const listItem = document.createElement("li");
-        listItem.textContent = "No users found.";
-        userList.appendChild(listItem);
-    } else {
-        users.forEach(user => {
-            const listItem = document.createElement("li");
-            listItem.textContent = `Nama Barang: ${user.username}, Berapa: ${user.password}, Kategori: ${user.category || "None"}, Details: ${user.details?.details || "None"}`;
-            userList.appendChild(listItem);
+            if (sectionTop < windowHeight - 100) {
+                section.classList.add('visible');
+            }
         });
-    }
-}
-
-// Clear all user data
-document.getElementById("clear-data-btn").addEventListener("click", () => {
-    if (confirm("Are you sure you want to delete all user data? This action cannot be undone.")) {
-        users = [];
-        localStorage.removeItem("users");
-        alert("All user data has been cleared.");
-        updateUserList();
-    }
-});
-
-// Logout
-document.getElementById("logout-btn").addEventListener("click", () => {
-    dashboardContainer.classList.add("hidden");
-    authContainer.classList.remove("hidden");
-    document.getElementById("username").value = "";
-    document.getElementById("password").value = "";
-});
     </script>
 </body>
 </html>
