@@ -1,108 +1,188 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ms">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neon Website</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(to bottom, #000000, #220000);
-            font-family: Arial, sans-serif;
-            color: #fff;
-            text-align: center;
-            overflow-x: hidden;
-        }
-        .container {
-            max-width: 800px;
-            padding: 40px;
-        }
-        h1 {
-            font-size: 3rem;
-            font-weight: bold;
-        }
-        .highlight {
-            color: #ff0000;
-        }
-        p {
-            font-size: 1.2rem;
-            margin-top: 10px;
-            opacity: 0.8;
-        }
-        .line {
-            width: 100px;
-            height: 4px;
-            background: #ff0000;
-            margin: 20px auto;
-        }
-        .btn {
-            display: inline-block;
-            padding: 15px 40px;
-            font-size: 1.2rem;
-            color: #fff;
-            background: #ff0000;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: transform 0.3s ease, background 0.3s;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        .btn:hover {
-            background: #ff4444;
-            transform: scale(1.1);
-        }
-        .neon-icon {
-            margin-top: 30px;
-        }
-        .scroll-section {
-            opacity: 0;
-            transform: translateY(100px);
-            transition: opacity 1s ease, transform 1s ease;
-            margin-top: 50px;
-            padding: 40px;
-            text-align: center;
-        }
-        .scroll-section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Incharge 7e via WhatsApp</title>
+  <style>
+    :root {
+      --primary-color: #1abc9c;
+      --secondary-color: #16a085;
+      --background-color: #f5f7fa;
+      --text-color: #2c3e50;
+      --font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: var(--font-family);
+      background-color: var(--background-color);
+      color: var(--text-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background-color: #fff;
+      padding: 30px 20px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      max-width: 600px;
+      width: 100%;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    input, textarea, select, button {
+      width: 100%;
+      font-size: 16px;
+      margin-top: 12px;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: var(--secondary-color);
+    }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .note {
+      font-size: 13px;
+      color: #888;
+    }
+
+    textarea {
+      height: 200px;
+      resize: vertical;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 20px 10px;
+      }
+
+      .button-group {
+        flex-direction: column;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Enjoy <span class="highlight">Neon Admin</span>.</h1>
-        <h2>Keyless, For Free, Forever.</h2>
-        <div class="line"></div>
-        <p>Explore the completely free version of Neon Admin, with no Key System required. It provides a simple and intuitive interface with admin commands, allowing you to easily customize your experience.</p>
-        <a href="#" class="btn">GET IT NOW!</a>
+  <div class="container">
+    <h2>Contact Incharge 7e via WhatsApp</h2>
+
+    <input type="tel" id="phoneNumber" placeholder="Tekan Button Paste / Masukkan No. Telephone" inputmode="numeric" pattern="[0-9]*" />
+    <div class="button-group">
+      <button onclick="pastePhone()">Paste dari Clipboard</button>
     </div>
+    <div class="note" id="pasteStatus"></div>
 
-    <!-- New Section that Appears on Scroll -->
-    
-	<div class="scroll-section" id="scrollSection">
-        <h2>Exclusive Features</h2>
-        <p>Example is that a thing you cant do it alone(jk) notfox</p>
-        <a href="#" class="btn">Learn More</a>
-    </div>
-	
+    <input type="text" id="storeName" placeholder="No. Store" oninput="updateMessage()" />
 
-    <script>
-        // Add smooth scroll effect
-        window.addEventListener('scroll', function() {
-            const section = document.getElementById('scrollSection');
-            const sectionTop = section.getBoundingClientRect().top;
-            const windowHeight = window.innerHeight;
+    <select id="senderName" onchange="updateMessage()">
+      <option value="Yuzrin">En. Yuzrin</option>
+      <option value="Nasier">En. Muhammad Nasier</option>
+    </select>
 
-            if (sectionTop < windowHeight - 100) {
-                section.classList.add('visible');
-            }
-        });
-    </script>
+    <textarea id="message"></textarea>
+
+    <button onclick="sendWhatsApp()">Hantar ke WhatsApp</button>
+  </div>
+
+  <script>
+    async function pastePhone() {
+      const phoneInput = document.getElementById('phoneNumber');
+      const status = document.getElementById('pasteStatus');
+      try {
+        const text = await navigator.clipboard.readText();
+        phoneInput.value = text;
+        status.textContent = "No telefon berjaya dipaste.";
+        status.style.color = "green";
+      } catch (err) {
+        status.textContent = "Browser tidak benarkan auto-paste. Sila paste secara manual.";
+        status.style.color = "red";
+      }
+    }
+
+    function updateMessage() {
+      const store = document.getElementById('storeName').value || "________";
+      const nameOption = document.getElementById('senderName').value;
+
+      let msg = "";
+
+      if (nameOption === "Nasier") {
+        msg = `Assalamualaikum wbt/Salam Sejahtera,
+
+Saya *En. Muhammad Nasier*, Bahagian Teknikal dari *Moxie Dynamic Solutions*.
+
+Berkaitan isu CCTV di *Store ${store}*, saya akan hadir hari ini bagi kerja-kerja baikpulih CCTV.
+
+Mohon bantuan pihak Tuan/Puan send saya  📍*Location*.
+
+Terima kasih atas kerjasama.`;
+      } else {
+        msg = `Assalamualaikum wbt/Salam Sejahtera,
+
+Saya *En. Yuzrin*, Bahagian Pengurusan Operasi* dari *Moxie Dynamic Solutions*.
+
+Berkenaan report kerosakkan CCTV bagi *Store ${store}*.
+
+Boleh saya dapatkan maklumat berkaitan seperti di bawah:
+
+1. *Gambar Depan DVR.*
+2. *Jumlah Keseleuruhan Kamera Yang Ada.*
+3. *Jumlah Kamera Yang Rosak atau Kabur atau tiada paparan.*`;
+      }
+
+      document.getElementById('message').value = msg;
+    }
+
+    function sendWhatsApp() {
+      const input = document.getElementById('phoneNumber').value.trim();
+      const message = document.getElementById('message').value.trim();
+
+      if (!input || !message) {
+        alert("Sila lengkapkan no telefon dan mesej.");
+        return;
+      }
+
+      let cleanedNumber = input.replace(/[^0-9]/g, '');
+
+      if (cleanedNumber.startsWith("0")) {
+        cleanedNumber = "60" + cleanedNumber.slice(1);
+      } else if (!cleanedNumber.startsWith("60")) {
+        cleanedNumber = "60" + cleanedNumber;
+      }
+
+      const encodedMessage = encodeURIComponent(message);
+      const whatsappURL = `https://wa.me/${cleanedNumber}?text=${encodedMessage}`;
+
+      window.open(whatsappURL, "_blank");
+    }
+
+    window.onload = updateMessage;
+  </script>
 </body>
 </html>
